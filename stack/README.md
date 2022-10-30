@@ -11,7 +11,7 @@ Examples of stacks are:
 
 the package exposes below listed functions
 
-### NewStack[T any]()
+### NewStack[T any]
 
 created a new stack that can have nodes that can hold data of type T.
 T can be of any data type from basic data type like int, string, etc. to any user created data type like structs
