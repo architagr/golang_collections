@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/architagr/golang_collections/badge.svg?branch=main)](https://coveralls.io/github/architagr/golang_collections?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/jandelgado/golang-ci-template-github-actions/badge.svg?branch=master)](https://coveralls.io/github/jandelgado/golang-ci-template-github-actions?branch=master)
 
 # golang_collections
 this repository implements all collections like List, stack, queue 
