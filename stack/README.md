@@ -1,4 +1,4 @@
-# stack
+# Stack (using Linked list)
 
 This package implements genric stack we we can have data in node of any type we want. 
 Stack is a data structure that follows LIFO (Last in first out).
@@ -7,6 +7,35 @@ Examples of stacks are:
 1. Pile of books
 2. Clipboards in the computers (ctrl + c and ctrl + v)
 
+
+## Quick Start
+```go
+package main
+
+import (
+
+  "github.com/architagr/golang_collections/stack"
+)
+
+func main() {
+  newStack := NewStack[int]()
+  newStack.Push(10)
+  newStack.Push(11)
+  data, err := newStack.Pop()
+  if err != nil{
+    panic(fmt.Errorf("Error in pop: %s", err.Error()))
+  }
+  fmt.Printf("data poped %d\n", data)
+
+  data, err = newStack.Top()
+  if err != nil{
+    panic(fmt.Errorf("Error in top: %s", err.Error()))
+  }
+  fmt.Printf("data at top %d\n", data)
+  fmt.Printf("Stack contains #%d nodes\n", newStack.Count())
+  fmt.Printf("Is Stack empty? #%t\n", newStack.IsEmpty())
+}
+```
 ## Functions available
 
 the package exposes below listed functions
@@ -36,3 +65,19 @@ This function returns the number of nodes in the stack
 ### IsEmpty() bool
 
 This function returns ture if the stack is empty, i.e. count is 0, and return false if we have some data in stack, i.e. count > 0.
+
+
+## Benchmarks
+
+This benchmarking was done against [emirpasic's GODS package](https://github.com/emirpasic/gods)
+
+**System configuration used while doing these benchmark**<br />
+**goos:** linux<br />
+**goarch:** amd64<br />
+**pkg:** github.com/architagr/golang_collections/stack<br />
+**cpu:** Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz<br />
+
+| Benchmark name                       |       (1)     |             (2) |          (3)  |             (4) |
+| ------------------------------------ | -------------:| ---------------:| -------------:| ---------------:|
+| BenchmarkGolang_collections_llStack  | **100000000** | **109.0 ns/op** |   **16 B/op** | **1 allocs/op** |
+| BenchmarkEmirpasicGods_llStack       |     100000000 |     143.0 ns/op |       31 B/op |     1 allocs/op |

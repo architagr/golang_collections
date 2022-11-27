@@ -3,7 +3,23 @@ package stack
 import (
 	"reflect"
 	"testing"
+
+	lls "github.com/emirpasic/gods/stacks/linkedliststack"
 )
+
+func BenchmarkGolang_collections_llStack(b *testing.B) {
+	newStack := NewStack[int]()
+	for i := 0; i < b.N; i++ {
+		newStack.Push(i)
+	}
+}
+
+func BenchmarkEmirpasicGods_llStack(b *testing.B) {
+	newStack := lls.New()
+	for i := 0; i < b.N; i++ {
+		newStack.Push(i)
+	}
+}
 
 func TestNewNodeCreatedOfIntType(t *testing.T) {
 	node := newNode(10)
@@ -35,7 +51,11 @@ func TestIntStackToGetCreated(t *testing.T) {
 
 func TestStackFunctions(t *testing.T) {
 	newStack := NewStack[int]()
-	_, err := newStack.Pop()
+	_, err := newStack.Top()
+	if err == nil {
+		t.Errorf("should have thrown error as stack does not gave any data")
+	}
+	_, err = newStack.Pop()
 	if err == nil {
 		t.Errorf("should have thrown error as stack does not gave any data")
 	}
@@ -56,7 +76,10 @@ func TestStackFunctions(t *testing.T) {
 		t.Errorf("expected 20 to be poped, but got %d", data)
 	}
 
-	data = newStack.Top()
+	data, err = newStack.Top()
+	if err != nil {
+		t.Errorf("should be able to get the last value from the stack but received error %s", err.Error())
+	}
 	if data != 10 {
 		t.Errorf("expected 10 to be on top, but got %d", data)
 	}

@@ -3,4 +3,12 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/architagr/golang_collections)](https://goreportcard.com/report/github.com/architagr/golang_collections) 
 
 # golang_collections
-this repository implements all collections like List, stack, queue 
+This package is intended to implement all collections out of the box and using generics like List, stack, queue, tree, Heaps, etc. 
+Using generics for these collection will help us to use the type safety.
+
+We have also done some basic benchmarking with some of the most commonly used packages. We have included the result in the respective documention of the collection.
+
+
+### implemented collections:
+
+- [Stack (using linked list)](stack/README.md)
