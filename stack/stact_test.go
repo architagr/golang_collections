@@ -72,7 +72,10 @@ func TestStackFunctions(t *testing.T) {
 		t.Errorf("expected 20 to be poped, but got %d", data)
 	}
 
-	data, _ = newStack.Top()
+	data, err = newStack.Top()
+	if err != nil {
+		t.Errorf("should be able to get the last value from the stack but received error %s", err.Error())
+	}
 	if data != 10 {
 		t.Errorf("expected 10 to be on top, but got %d", data)
 	}
