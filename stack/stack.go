@@ -26,8 +26,8 @@ type IStack[T any] interface {
 	// Pop returns error if stack is empty, or returns the data in the top node
 	// and moves top to next node, practically deleting the last node added
 	Pop() (value T, err error)
-	// Top return data of the last node been addd
-	Top() (value T)
+	// Top returns error if stack is empty, or returns the data of the last node been addd
+	Top() (value T, err error)
 	// IsEmpty returns true if there is no data in the stack, else returns false
 	IsEmpty() bool
 	// Count returns number of nodes in the stack
@@ -54,7 +54,7 @@ func (stack *stack[T]) Push(value T) {
 
 func (stack *stack[T]) Pop() (value T, err error) {
 	if stack.head == nil {
-		err = fmt.Errorf("no data to pop")
+		err = fmt.Errorf("Stack is empty")
 		return
 	}
 	node := stack.head
@@ -64,8 +64,9 @@ func (stack *stack[T]) Pop() (value T, err error) {
 	return
 }
 
-func (stack *stack[T]) Top() (value T) {
+func (stack *stack[T]) Top() (value T, err error) {
 	if stack.head == nil {
+		err = fmt.Errorf("Stack is empty")
 		return
 	}
 	value = stack.head.data
