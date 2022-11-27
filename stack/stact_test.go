@@ -51,7 +51,11 @@ func TestIntStackToGetCreated(t *testing.T) {
 
 func TestStackFunctions(t *testing.T) {
 	newStack := NewStack[int]()
-	_, err := newStack.Pop()
+	_, err := newStack.Top()
+	if err == nil {
+		t.Errorf("should have thrown error as stack does not gave any data")
+	}
+	_, err = newStack.Pop()
 	if err == nil {
 		t.Errorf("should have thrown error as stack does not gave any data")
 	}
