@@ -1,6 +1,6 @@
 # Stack (using Linked list)
 
-This package implements genric stack we we can have data in node of any type we want. 
+This package implements genric stack, we can have data in node of any type we want. 
 Stack is a data structure that follows LIFO (Last in first out).
 
 Examples of stacks are: 
@@ -52,7 +52,7 @@ this is a function been implemented by type struct and helps in adding new node 
 ### Pop() (value T, err error)
 
 this function returns error if we do not have any data/node in the stack, i.e. the stack is empty.
-if stack is not empty then it removeds the last node that was added and returns the data of the node that was removed.
+if stack is not empty then it removes the last node that was added and returns the data of the node that was removed.
 
 ### Top() T
 
