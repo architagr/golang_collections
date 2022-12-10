@@ -54,7 +54,7 @@ func (stack *stack[T]) Push(value T) {
 
 func (stack *stack[T]) Pop() (value T, err error) {
 	if stack.head == nil {
-		err = fmt.Errorf("Stack is empty")
+		err = fmt.Errorf("stack is empty")
 		return
 	}
 	node := stack.head
@@ -66,7 +66,7 @@ func (stack *stack[T]) Pop() (value T, err error) {
 
 func (stack *stack[T]) Top() (value T, err error) {
 	if stack.head == nil {
-		err = fmt.Errorf("Stack is empty")
+		err = fmt.Errorf("stack is empty")
 		return
 	}
 	value = stack.head.data

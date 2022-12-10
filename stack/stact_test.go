@@ -53,11 +53,11 @@ func TestStackFunctions(t *testing.T) {
 	newStack := NewStack[int]()
 	_, err := newStack.Top()
 	if err == nil {
-		t.Errorf("should have thrown error as stack does not gave any data")
+		t.Errorf("should have thrown error as stack does not have any data")
 	}
 	_, err = newStack.Pop()
 	if err == nil {
-		t.Errorf("should have thrown error as stack does not gave any data")
+		t.Errorf("should have thrown error as stack does not have any data")
 	}
 
 	newStack.Push(10)
