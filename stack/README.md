@@ -1,6 +1,6 @@
 # Stack (using Linked list)
 
-This package implements genric stack, we can have data in node of any type we want. 
+This package implements generic stack, we can have data in node of any type we want. 
 Stack is a data structure that follows LIFO (Last in first out).
 
 Examples of stacks are: 

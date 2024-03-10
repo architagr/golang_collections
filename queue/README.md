@@ -1,6 +1,6 @@
 # Queue (using Linked list)
 
-This package implements genric queue, we can have data in node of any type we want. 
+This package implements generic queue, we can have data in node of any type we want. 
 Queue is a data structure that follows FIFO (First in First out).
 
 Examples of stacks are: 
