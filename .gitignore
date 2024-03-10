@@ -15,3 +15,6 @@
 # vendor/
 
 *.txt
+
+*.html
+.vscode
