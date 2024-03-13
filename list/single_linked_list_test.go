@@ -6,26 +6,27 @@ import (
 
 type Integer int
 
-func InitInteger(val int) Integer {
-	return Integer(val)
+func InitInteger(val int) *Integer {
+	x := Integer(val)
+	return &x
 }
-func (obj Integer) Copy() interface{} {
+func (obj *Integer) Copy() interface{} {
 	return obj
 }
 
-func (obj Integer) Equal(val interface{}) bool {
-	x := val.(Integer)
-	return int(x) == int(obj)
+func (obj *Integer) Equal(val interface{}) bool {
+	x := val.(*Integer)
+	return int(*x) == int(*obj)
 }
 
 var singleLinkedListSampleData = []int{1, 2, 3}
 
-func GetSingleLinkedList() IList[Integer] {
+func GetSingleLinkedList() IList[Integer, *Integer] {
 	obj := InitSingleLinkedList[Integer]()
 	// adding dummy data
 	for _, val := range []int{1, 2, 3} {
 		intVal := InitInteger(val)
-		obj.Add(&intVal)
+		obj.Add(intVal)
 	}
 	return obj
 }
@@ -42,7 +43,7 @@ func TestInitilizationSingleLinkedList(t *testing.T) {
 func TestAddNodeToNewSingleLinkedList(t *testing.T) {
 	obj := InitSingleLinkedList[Integer]()
 	val := InitInteger(1)
-	obj.Add(&val)
+	obj.Add(val)
 	if obj.Count() != 1 {
 		t.Errorf("New Single linked list did not add 1 data correctly, expected element count is 1, got %d", obj.Count())
 	}
@@ -80,7 +81,7 @@ func TestAddNodeToSingleLinkedList(t *testing.T) {
 func TestAddNodeAtInvalidIndex(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
-	err := obj.AddAtIndex(len(singleLinkedListSampleData)+10, &intVal)
+	err := obj.AddAtIndex(len(singleLinkedListSampleData)+10, intVal)
 	if err == nil {
 		t.Errorf("Single Linked List should return error if we try to add at a invalid index")
 	}
@@ -89,7 +90,7 @@ func TestAddNodeAtInvalidIndex(t *testing.T) {
 func TestAddNodeAtNegativeIndex(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
-	err := obj.AddAtIndex(-1, &intVal)
+	err := obj.AddAtIndex(-1, intVal)
 	if err == nil {
 		t.Errorf("Single Linked List should return error if we try to add at a invalid index")
 	}
@@ -97,7 +98,7 @@ func TestAddNodeAtNegativeIndex(t *testing.T) {
 func TestAddNodeAfterLastNode(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
-	err := obj.AddAtIndex(len(singleLinkedListSampleData), &intVal)
+	err := obj.AddAtIndex(len(singleLinkedListSampleData), intVal)
 	if err == nil {
 		t.Errorf("Single Linked List should return error if we try to add at a invalid index")
 	}
@@ -107,7 +108,7 @@ func TestAddNodeAtValidIndexInBetween(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
 	index := len(singleLinkedListSampleData) / 2
-	err := obj.AddAtIndex(index, &intVal)
+	err := obj.AddAtIndex(index, intVal)
 	if err != nil {
 		t.Errorf("Single Linked List should not return error if we try to add at a valid index")
 	}
@@ -121,7 +122,7 @@ func TestAddNodeAtValidIndexAtBeginning(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
 	index := 0
-	err := obj.AddAtIndex(index, &intVal)
+	err := obj.AddAtIndex(index, intVal)
 	if err != nil {
 		t.Errorf("Single Linked List should not return error if we try to add at a valid index")
 	}
@@ -136,7 +137,7 @@ func TestAddNodeAtValidIndexAtEnd(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
 	index := len(singleLinkedListSampleData) - 1
-	err := obj.AddAtIndex(index, &intVal)
+	err := obj.AddAtIndex(index, intVal)
 	if err != nil {
 		t.Errorf("Single Linked List should not return error if we try to add at a valid index")
 	}
@@ -198,7 +199,7 @@ func TestGetNodeInEmptyList(t *testing.T) {
 func TestSetNodeWithValidIndex(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
-	err := obj.Set(0, &intVal)
+	err := obj.Set(0, intVal)
 	if err != nil {
 		t.Fatalf("Single Linked List should not return error if trying to set valid index")
 	}
@@ -215,7 +216,7 @@ func TestSetNodeWithValidIndex(t *testing.T) {
 func TestSetNodeWithNegativeIndex(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
-	err := obj.Set(-1, &intVal)
+	err := obj.Set(-1, intVal)
 	if err == nil {
 		t.Errorf("Single Linked List should return error if we try to access negitive index")
 	}
@@ -223,7 +224,7 @@ func TestSetNodeWithNegativeIndex(t *testing.T) {
 func TestSetNodeWithOutofBoundIndex(t *testing.T) {
 	obj := GetSingleLinkedList()
 	intVal := InitInteger(10)
-	err := obj.Set(len(singleLinkedListSampleData)+10, &intVal)
+	err := obj.Set(len(singleLinkedListSampleData)+10, intVal)
 	if err == nil {
 		t.Errorf("Single Linked List should return error if we try to set index that does not exist")
 	}
@@ -232,7 +233,7 @@ func TestSetNodeWithOutofBoundIndex(t *testing.T) {
 func TestSetNodeInEmptyList(t *testing.T) {
 	obj := InitSingleLinkedList[Integer]()
 	intVal := InitInteger(10)
-	err := obj.Set(0, &intVal)
+	err := obj.Set(0, intVal)
 	if err == nil {
 		t.Errorf("Single Linked List should return error if we try to set any index when list is empty")
 	}
@@ -256,7 +257,7 @@ func TestRemovingValidData(t *testing.T) {
 func TestRemovingDataThatDoesNotExist(t *testing.T) {
 	obj := GetSingleLinkedList()
 	val := InitInteger(10)
-	_, err := obj.Remove(&val)
+	_, err := obj.Remove(val)
 	if err == nil {
 		t.Errorf("Single Linked List should have error while deleting a node that does not exist")
 	}
