@@ -1,7 +1,5 @@
 package list
 
-import "fmt"
-
 var (
 	ArrayListBuffer   int = 10
 	ArrayListCapacity int = 100
@@ -79,10 +77,10 @@ func (l *arrayList[T, deepCopy]) Set(index int, data deepCopy) error {
 	l.data[index] = data
 	return nil
 }
-func (l *arrayList[T, deepCopy]) Find(f filterfunc[T, deepCopy]) (index int) {
+func (l *arrayList[T, deepCopy]) Find(data deepCopy) (index int) {
 	index = -1
 	for i, val := range l.data {
-		if f(val) {
+		if data.Equal(val) {
 			index = i
 			break
 		}
@@ -117,7 +115,6 @@ func (l *arrayList[T, deepCopy]) removeElement(index int) {
 }
 
 func (l *arrayList[T, deepCopy]) adjustCapacity() {
-	fmt.Printf("length:%d, cap:%d, Buffer: %d\n", len(l.data), cap(l.data), ArrayListBuffer)
 	if cap(l.data)-len(l.data) <= ArrayListBuffer {
 		newArray := make([]deepCopy, 0, cap(l.data)+ArrayListCapacity)
 		l.data = append(newArray, l.data...)

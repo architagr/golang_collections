@@ -127,11 +127,11 @@ func (l *singleLinkedList[T, deepCopy]) Set(index int, data deepCopy) error {
 	return nil
 }
 
-func (l *singleLinkedList[T, deepCopy]) Find(f filterfunc[T, deepCopy]) (index int) {
+func (l *singleLinkedList[T, deepCopy]) Find(data deepCopy) (index int) {
 	temp := l.head
 	index = 0
 	for temp != nil {
-		if f(temp.data) {
+		if temp.data.Equal(data) {
 			break
 		}
 		index++

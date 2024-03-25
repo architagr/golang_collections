@@ -52,11 +52,8 @@ func main() {
 	if err != nil {
 		panic(fmt.Errorf("error when removing a node at a index: %s", err.Error()))
 	}
-
-    index := obj.Find(func(val *Integer) bool {
-		x := InitInteger(2)
-		return val.Equal(x)
-	})
+    x := InitInteger(2)
+    index := obj.Find(x)
     if index == -1 {
 		panic(fmt.Errorf("error when finding value: %s", err.Error()))
 	}
@@ -101,7 +98,6 @@ This function gets data at the index, if index is not valid then it returns erro
 
 This function updates the data at the index, if index is not valid then returns error
 
-#### Find(f filterfunc[T]) (index int)
+#### Find(data deepCopy) (index int)
 
-This function helps to get the first occourance if the data that matches according to the filter func and also returns index, if index is -1 then the data is not found
-
+This function helps to get the index of first occourance if the data that matches input data and returns index, if index is -1 then the data is not found
