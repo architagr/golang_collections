@@ -333,10 +333,8 @@ func TestRemoveInValidIndex(t *testing.T) {
 // #region test Find
 func TestFindValidData(t *testing.T) {
 	obj := GetSingleLinkedList()
-	index := obj.Find(func(val *Integer) bool {
-		x := InitInteger(2)
-		return val.Equal(x)
-	})
+	x := InitInteger(2)
+	index := obj.Find(x)
 
 	if index != 1 {
 		t.Errorf("Single linked list should be able to find a valid data")
@@ -345,10 +343,8 @@ func TestFindValidData(t *testing.T) {
 }
 func TestFindInValidData(t *testing.T) {
 	obj := GetSingleLinkedList()
-	index := obj.Find(func(val *Integer) bool {
-		x := InitInteger(20)
-		return val.Equal(x)
-	})
+	x := InitInteger(20)
+	index := obj.Find(x)
 
 	if index != -1 {
 		t.Errorf("Single linked list should return -1 if data is not found")

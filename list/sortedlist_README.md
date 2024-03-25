@@ -1,6 +1,6 @@
-# Array List
+# Sorted List
 
-This package implements generic Array List, the data of the list should implement the `IDeepCopy` interface.
+This package implements generic Sorted List, the data of the list should implement the `IDeepCopy` interface.
 
 ## Quick Start
 ```go
@@ -31,7 +31,9 @@ func (usr *user) Equal(val interface{}) bool {
 }
 
 func main() {
-    list := InitArrayList[user, *user]()
+    list := InitSortedList(func(a, b *user) bool {
+		return a.id < b.id
+	})
     users := []*user{
 		&user{
 			id:   1,
@@ -42,10 +44,8 @@ func main() {
 			name: "test name 2",
 		},
 	}
-    err := obj.AddAtIndex(0, users[0])
-    if err != nil{
-        panic(fmt.Errorf("Error in adding at 0th index: %s", err.Error()))
-    }
+    index := list.Add(users[0])
+    f,t.Println("data was added at index", index)
     data, err := list.Get(0)
     if err != nil{
         panic(fmt.Errorf("Error in getting value at a index: %s", err.Error()))
@@ -83,19 +83,16 @@ func main() {
 
 the package exposes below listed functions
 
-### InitArrayList[T any, deepCopy IDeepCopy[T]]
+### InitSortedList[T any, deepCopy IDeepCopy[T]]
 
-created a new array list that can have nodes that can hold data of type `IDeepCopy`.
+created a new sorted list that can have nodes that can hold data of type `IDeepCopy`.
 T can be of any data type that implements `IDeepCopy`.
+also we have to give a less function that will be used to compare data to maintain sorted order.
 
 ### Method in the object of single linked list
 #### Add(data *deepCopy) (resultIndex int)
 
 this is a function adds data to the end of the list.
-
-#### AddAtIndex(index int, data deepCopy) (err error)
-
-this function adds data to the index in the list and shifts all data to right if the index is out of bound then return error.
 
 #### Remove(data deepCopy) (removedIndex int, err error)
 
@@ -120,4 +117,3 @@ This function updates the data at the index, if index is not valid then returns 
 #### Find(data deepCopy) (index int)
 
 This function helps to get the index of first occourance if the data that matches input data and returns index, if index is -1 then the data is not found
-

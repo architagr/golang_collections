@@ -296,8 +296,9 @@ func TestSet(t *testing.T) {
 // #region test find
 func TestFindNegative(t *testing.T) {
 	list := InitArrayList[user, *user](getSampleData()...)
-	index := list.Find(func(val *user) bool {
-		return val.id == 1 && val.name == "test"
+	index := list.Find(&user{
+		id:   1,
+		name: "test",
 	})
 	if index != -1 {
 		t.Fatalf("Array list should return -1 as a response of find")
@@ -306,8 +307,9 @@ func TestFindNegative(t *testing.T) {
 
 func TestFind(t *testing.T) {
 	list := InitArrayList[user, *user](getSampleData()...)
-	index := list.Find(func(val *user) bool {
-		return val.id == 1
+	index := list.Find(&user{
+		id:   1,
+		name: "test 1",
 	})
 	if index == -1 {
 		t.Fatalf("Array list should not return -1 as a response of find")

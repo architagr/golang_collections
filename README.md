@@ -15,3 +15,4 @@ We have also done some basic benchmarking with some of the most commonly used pa
 - [Queue (using linked list)](queue/README.md)
 - [Single linked list](list/singleLinkedList_README.md)
 - [Array list](list/arraylist_README.md)
+- [Sorted list](list/sortedlist_README.md)
