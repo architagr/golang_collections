@@ -774,3 +774,31 @@ func TestFilterSortedList(t *testing.T) {
 }
 
 // #endregion
+
+// #region test RemoveAll
+
+func TestRemoveAllSortedList(t *testing.T) {
+	initData := getSampleDataSortedList()
+	obj := InitSortedList(func(a, b *user) bool {
+		return a.id < b.id
+	})
+	for _, usr := range initData {
+		obj.Add(usr)
+	}
+	removedData := obj.RemoveAll(func(val *user) bool {
+		return val.id%2 == 0
+	})
+	for _, val := range removedData {
+		if val.id%2 != 0 {
+			t.Fatalf("removed some data that was not supposed to be removed")
+		}
+	}
+	response := obj.DeepCopy()
+	for _, val := range response {
+		if val.id%2 == 0 {
+			t.Fatalf("did not remove data that was not supposed to be removed")
+		}
+	}
+}
+
+// #endregion

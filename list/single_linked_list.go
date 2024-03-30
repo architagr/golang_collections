@@ -142,3 +142,21 @@ func (l *singleLinkedList[T, deepCopy]) Find(data deepCopy) (index int) {
 	}
 	return
 }
+
+func (l *singleLinkedList[T, deepCopy]) RemoveAll(f filterfunc[T, deepCopy]) []deepCopy {
+	removedData := make([]deepCopy, 0, l.Count())
+	temp := l.head
+	index := 0
+	for temp != nil {
+		d := temp.data
+		temp = temp.next
+		if f(d) {
+			x, _ := l.RemoveAtIndex(index)
+			removedData = append(removedData, x)
+		} else {
+			index++
+		}
+
+	}
+	return removedData
+}

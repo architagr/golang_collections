@@ -10,7 +10,7 @@ type deepCopyBaseInterface interface {
 	Equal(val interface{}) bool
 }
 
-type ISortedList[T any, deepCopy IDeepCopy[T]] interface {
+type IBaseList[T any, deepCopy IDeepCopy[T]] interface {
 	// Add adds data to the end of the list
 	Add(data deepCopy) (resultIndex int)
 	// Remove removes data from the list and returns error if the data is not found
@@ -26,14 +26,19 @@ type ISortedList[T any, deepCopy IDeepCopy[T]] interface {
 	// Find helps to get the first occourance if the data that matches the input and returns index
 	// if index is -1 then the data is not found
 	Find(data deepCopy) (index int)
+	// RemoveAll function removes al elements for which the f returns true,
+	// this also returns all elements removed
+	RemoveAll(f filterfunc[T, deepCopy]) []deepCopy
 }
 
 type IList[T any, deepCopy IDeepCopy[T]] interface {
-	ISortedList[T, deepCopy]
+	IBaseList[T, deepCopy]
 	// AddAtIndex adds data to the index in the list and shifts all data to right
 	// if the index is out of bound then return error
 	AddAtIndex(index int, data deepCopy) (err error)
 }
+
+type mapfunc[T1 any, deepCopy1 IDeepCopy[T1], T2 any, deepCopy2 IDeepCopy[T2]] func(data deepCopy1) deepCopy2
 
 type filterfunc[T any, deepCopy IDeepCopy[T]] func(data deepCopy) bool
 
@@ -46,7 +51,7 @@ type IItratorList[T any, deepCopy IDeepCopy[T]] interface {
 }
 
 type ISortedItratorList[T any, deepCopy IDeepCopy[T]] interface {
-	ISortedList[T, deepCopy]
+	IBaseList[T, deepCopy]
 	// Filter helps to get the all data that matches according to the filter func and also returns index
 	Filter(f filterfunc[T, deepCopy]) []deepCopy
 	// DeepCopy this is used to create a copy of the list

@@ -117,3 +117,11 @@ This function updates the data at the index, if index is not valid then returns 
 #### Find(data deepCopy) (index int)
 
 This function helps to get the index of first occourance if the data that matches input data and returns index, if index is -1 then the data is not found
+
+#### Filter(f filterfunc[T, deepCopy]) []deepCopy
+
+This function helps to finding all elements for which the returns true for f, and returns all these elements.
+
+#### RemoveAll(f filterfunc[T, deepCopy]) []deepCopy
+
+This function helps to remove all elements for which the returns true for f, and also returns all removed elements.

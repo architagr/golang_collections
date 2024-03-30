@@ -353,3 +353,19 @@ func TestFindInValidData(t *testing.T) {
 }
 
 // #endregion
+
+// #region test RemoveAll
+
+func TestRemoveAllLinkedList(t *testing.T) {
+	obj := GetSingleLinkedList()
+	removedData := obj.RemoveAll(func(val *Integer) bool {
+		return (*val)%2 == 0
+	})
+	for _, val := range removedData {
+		if (*val)%2 != 0 {
+			t.Fatalf("removed some data that was not supposed to be removed")
+		}
+	}
+}
+
+// #endregion
