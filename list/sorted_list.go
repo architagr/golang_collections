@@ -13,6 +13,7 @@ func InitSortedList[T any, deepCopy IDeepCopy[T]](lessFn Less[T, deepCopy]) ISor
 		lessFn: lessFn,
 	}
 }
+
 func (l *sortedList[T, deepCopy]) binarySearch(data deepCopy, start, end int) int {
 	if start >= end {
 		if l.lessFn(l.data[start], data) {
@@ -68,9 +69,11 @@ func (l *sortedList[T, deepCopy]) RemoveAtIndex(index int) (data deepCopy, err e
 	l.removeElement(index)
 	return
 }
+
 func (l *sortedList[T, deepCopy]) Count() int {
 	return len(l.data)
 }
+
 func (l *sortedList[T, deepCopy]) Get(index int) (data deepCopy, err error) {
 	err = l.validateIndex(index)
 	if err != nil {
@@ -79,6 +82,7 @@ func (l *sortedList[T, deepCopy]) Get(index int) (data deepCopy, err error) {
 	data = l.data[index]
 	return
 }
+
 func (l *sortedList[T, deepCopy]) Set(index int, data deepCopy) error {
 	err := l.validateIndex(index)
 	if err != nil {
@@ -107,6 +111,20 @@ func (l *sortedList[T, deepCopy]) Filter(f filterfunc[T, deepCopy]) []deepCopy {
 	}
 	return result
 }
+
+func (l *sortedList[T, deepCopy]) RemoveAll(f filterfunc[T, deepCopy]) []deepCopy {
+	removedData, result := make([]deepCopy, 0, l.Count()), make([]deepCopy, 0, l.Count())
+	for _, val := range l.data {
+		if f(val) {
+			removedData = append(removedData, val)
+		} else {
+			result = append(result, val)
+		}
+	}
+	l.data = result
+	return removedData
+}
+
 func (l *sortedList[T, deepCopy]) DeepCopy() []deepCopy {
 	result := make([]deepCopy, 0, l.Count())
 	for _, val := range l.data {

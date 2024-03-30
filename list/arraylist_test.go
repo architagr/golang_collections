@@ -36,11 +36,11 @@ func TestInitilizationOfBlankItratorArrayList(t *testing.T) {
 
 func TestInitilizationOfItratorArrayListWithValue(t *testing.T) {
 	users := []*user{
-		&user{
+		{
 			id:   1,
 			name: "test name 1",
 		},
-		&user{
+		{
 			id:   2,
 			name: "test name 2",
 		},
@@ -94,23 +94,23 @@ func TestAddingNewDataPositiveMoreData(t *testing.T) {
 // #region test AddAtIndex
 func getSampleData() []*user {
 	return []*user{
-		&user{
+		{
 			id:   1,
 			name: "test 1",
 		},
-		&user{
+		{
 			id:   2,
 			name: "test 2",
 		},
-		&user{
+		{
 			id:   3,
 			name: "test 3",
 		},
-		&user{
+		{
 			id:   4,
 			name: "test 4",
 		},
-		&user{
+		{
 			id:   5,
 			name: "test 5",
 		},
@@ -348,3 +348,25 @@ func TestDeepCopy(t *testing.T) {
 		t.Fatalf("Array list return same data")
 	}
 }
+
+// #region test RemoveAll
+
+func TestRemoveAll(t *testing.T) {
+	list := InitArrayList[user, *user](getSampleData()...)
+	removedData := list.RemoveAll(func(val *user) bool {
+		return val.id%2 == 0
+	})
+	for _, val := range removedData {
+		if val.id%2 != 0 {
+			t.Fatalf("removed some data that was not supposed to be removed")
+		}
+	}
+	response := list.DeepCopy()
+	for _, val := range response {
+		if val.id%2 == 0 {
+			t.Fatalf("did not remove data that was not supposed to be removed")
+		}
+	}
+}
+
+// #endregion
