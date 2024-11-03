@@ -11,8 +11,8 @@ We have also done some basic benchmarking with some of the most commonly used pa
 
 ### implemented collections:
 
-- [Stack (using linked list)](stack/README.md)
-- [Queue (using linked list)](queue/README.md)
-- [Single linked list](list/singleLinkedList_README.md)
-- [Array list](list/arraylist_README.md)
-- [Sorted list](list/sortedlist_README.md)
+- [Stack (using linked list)](docs/stack_README.md)
+- [Queue (using linked list)](docs/queue_README.md)
+- [Single linked list](docs/singleLinkedList_README.md)
+- [Array list](docs/arraylist_README.md)
+- [Sorted list](docs/sortedlist_README.md)

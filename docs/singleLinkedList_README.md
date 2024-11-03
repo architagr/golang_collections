@@ -26,7 +26,7 @@ func (obj Integer) Equal(val interface{}) bool {
 }
 
 func main() {
-    linkedList := InitSingleLinkedList[Integer]()
+    linkedList := InitSingleLinkedList[*Integer]()
     intVal := InitInteger(0)
     linkedList.Add(&intVal)
     intVal2 := InitInteger(1)
@@ -64,7 +64,7 @@ func main() {
 
 the package exposes below listed functions
 
-### InitSingleLinkedList[T any, deepCopy IDeepCopy[T]]
+### InitSingleLinkedList[deepCopy IDeepCopy[T], T any]
 
 created a new single linked list that can have nodes that can hold data of type `IDeepCopy`.
 T can be of any data type that implements `IDeepCopy`.
@@ -102,6 +102,6 @@ This function updates the data at the index, if index is not valid then returns 
 
 This function helps to get the index of first occourance if the data that matches input data and returns index, if index is -1 then the data is not found
 
-#### RemoveAll(f filterfunc[T, deepCopy]) []deepCopy
+#### RemoveAll(f Filterfunc[deepCopy, T]) []deepCopy
 
 This function helps to remove all elements for which the returns true for f, and also returns all removed elements.
