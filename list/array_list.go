@@ -1,43 +1,40 @@
 package list
 
 var (
-	ArrayListBuffer   int = 10
 	ArrayListCapacity int = 100
 )
 
-type arrayList[T any, deepCopy IDeepCopy[T]] struct {
+type arrayList[deepCopy IDeepCopy[T], T any] struct {
 	data []deepCopy
 }
 
-func InitArrayList[T any, deepCopy IDeepCopy[T]](data ...deepCopy) IItratorList[T, deepCopy] {
-	l := &arrayList[T, deepCopy]{
-		data: make([]deepCopy, 0, ArrayListCapacity),
+func InitArrayList[deepCopy IDeepCopy[T], T any](data ...deepCopy) IItratorList[deepCopy, T] {
+	if len(data) == 0 {
+		data = make([]deepCopy, 0, ArrayListCapacity)
 	}
-	if len(data) != 0 {
-		l.data = data
+	l := &arrayList[deepCopy, T]{
+		data: data,
 	}
 	return l
 }
 
-func (l *arrayList[T, deepCopy]) Add(data deepCopy) (resultIndex int) {
-	defer l.adjustCapacity()
+func (l *arrayList[deepCopy, T]) Add(data deepCopy) (resultIndex int) {
 	l.data = append(l.data, data)
 	resultIndex = len(l.data) - 1
 	return
 }
 
-func (l *arrayList[T, deepCopy]) AddAtIndex(index int, data deepCopy) (err error) {
+func (l *arrayList[deepCopy, T]) AddAtIndex(index int, data deepCopy) (err error) {
 	err = l.validateIndex(index)
 	if err != nil {
 		return
 	}
-	defer l.adjustCapacity()
 	l.data = append(l.data[:index+1], l.data[index:]...)
 	l.data[index] = data
 	return
 }
 
-func (l *arrayList[T, deepCopy]) Remove(data deepCopy) (removedIndex int, err error) {
+func (l *arrayList[deepCopy, T]) Remove(data deepCopy) (removedIndex int, err error) {
 	removedIndex = -1
 	for i, val := range l.data {
 		if data.Equal(val) {
@@ -50,7 +47,7 @@ func (l *arrayList[T, deepCopy]) Remove(data deepCopy) (removedIndex int, err er
 	return
 }
 
-func (l *arrayList[T, deepCopy]) RemoveAtIndex(index int) (data deepCopy, err error) {
+func (l *arrayList[deepCopy, T]) RemoveAtIndex(index int) (data deepCopy, err error) {
 	err = l.validateIndex(index)
 	if err != nil {
 		return
@@ -60,7 +57,7 @@ func (l *arrayList[T, deepCopy]) RemoveAtIndex(index int) (data deepCopy, err er
 	return
 }
 
-func (l *arrayList[T, deepCopy]) RemoveAll(f filterfunc[T, deepCopy]) []deepCopy {
+func (l *arrayList[deepCopy, T]) RemoveAll(f Filterfunc[deepCopy, T]) []deepCopy {
 	removedData, result := make([]deepCopy, 0, l.Count()), make([]deepCopy, 0, l.Count())
 	for _, val := range l.data {
 		if f(val) {
@@ -73,11 +70,11 @@ func (l *arrayList[T, deepCopy]) RemoveAll(f filterfunc[T, deepCopy]) []deepCopy
 	return removedData
 }
 
-func (l *arrayList[T, deepCopy]) Count() int {
+func (l *arrayList[deepCopy, T]) Count() int {
 	return len(l.data)
 }
 
-func (l *arrayList[T, deepCopy]) Get(index int) (data deepCopy, err error) {
+func (l *arrayList[deepCopy, T]) Get(index int) (data deepCopy, err error) {
 	err = l.validateIndex(index)
 	if err != nil {
 		return
@@ -86,7 +83,7 @@ func (l *arrayList[T, deepCopy]) Get(index int) (data deepCopy, err error) {
 	return
 }
 
-func (l *arrayList[T, deepCopy]) Set(index int, data deepCopy) error {
+func (l *arrayList[deepCopy, T]) Set(index int, data deepCopy) error {
 	err := l.validateIndex(index)
 	if err != nil {
 		return err
@@ -95,7 +92,7 @@ func (l *arrayList[T, deepCopy]) Set(index int, data deepCopy) error {
 	return nil
 }
 
-func (l *arrayList[T, deepCopy]) Find(data deepCopy) (index int) {
+func (l *arrayList[deepCopy, T]) Find(data deepCopy) (index int) {
 	index = -1
 	for i, val := range l.data {
 		if data.Equal(val) {
@@ -106,7 +103,7 @@ func (l *arrayList[T, deepCopy]) Find(data deepCopy) (index int) {
 	return
 }
 
-func (l *arrayList[T, deepCopy]) Filter(f filterfunc[T, deepCopy]) []deepCopy {
+func (l *arrayList[deepCopy, T]) Filter(f Filterfunc[deepCopy, T]) []deepCopy {
 	result := make([]deepCopy, 0, l.Count())
 	for _, val := range l.data {
 		if f(val) {
@@ -116,7 +113,7 @@ func (l *arrayList[T, deepCopy]) Filter(f filterfunc[T, deepCopy]) []deepCopy {
 	return result
 }
 
-func (l *arrayList[T, deepCopy]) DeepCopy() []deepCopy {
+func (l *arrayList[deepCopy, T]) DeepCopy() []deepCopy {
 	result := make([]deepCopy, 0, l.Count())
 	for _, val := range l.data {
 		if val != nil {
@@ -129,18 +126,11 @@ func (l *arrayList[T, deepCopy]) DeepCopy() []deepCopy {
 	return result
 }
 
-func (l *arrayList[T, deepCopy]) removeElement(index int) {
+func (l *arrayList[deepCopy, T]) removeElement(index int) {
 	l.data = append(l.data[:index], l.data[index+1:]...)
 }
 
-func (l *arrayList[T, deepCopy]) adjustCapacity() {
-	if cap(l.data)-len(l.data) <= ArrayListBuffer {
-		newArray := make([]deepCopy, 0, cap(l.data)+ArrayListCapacity)
-		l.data = append(newArray, l.data...)
-	}
-}
-
-func (l *arrayList[T, deepCopy]) validateIndex(index int) error {
+func (l *arrayList[deepCopy, T]) validateIndex(index int) error {
 	if index < 0 || len(l.data)-1 < index {
 		return errInvalidIndex
 	}

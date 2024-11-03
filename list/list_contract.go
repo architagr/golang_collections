@@ -10,7 +10,7 @@ type deepCopyBaseInterface interface {
 	Equal(val interface{}) bool
 }
 
-type IBaseList[T any, deepCopy IDeepCopy[T]] interface {
+type IBaseList[deepCopy IDeepCopy[T], T any] interface {
 	// Add adds data to the end of the list
 	Add(data deepCopy) (resultIndex int)
 	// Remove removes data from the list and returns error if the data is not found
@@ -28,38 +28,38 @@ type IBaseList[T any, deepCopy IDeepCopy[T]] interface {
 	Find(data deepCopy) (index int)
 	// RemoveAll function removes al elements for which the f returns true,
 	// this also returns all elements removed
-	RemoveAll(f filterfunc[T, deepCopy]) []deepCopy
+	RemoveAll(f Filterfunc[deepCopy, T]) []deepCopy
 }
 
-type IList[T any, deepCopy IDeepCopy[T]] interface {
-	IBaseList[T, deepCopy]
+type IList[deepCopy IDeepCopy[T], T any] interface {
+	IBaseList[deepCopy, T]
 	// AddAtIndex adds data to the index in the list and shifts all data to right
 	// if the index is out of bound then return error
 	AddAtIndex(index int, data deepCopy) (err error)
 }
 
-type mapfunc[T1 any, deepCopy1 IDeepCopy[T1], T2 any, deepCopy2 IDeepCopy[T2]] func(data deepCopy1) deepCopy2
+type Mapfunc[T1 any, deepCopy1 IDeepCopy[T1], T2 any, deepCopy2 IDeepCopy[T2]] func(data deepCopy1) deepCopy2
 
-type filterfunc[T any, deepCopy IDeepCopy[T]] func(data deepCopy) bool
+type Filterfunc[deepCopy IDeepCopy[T], T any] func(data deepCopy) bool
 
-type IItratorList[T any, deepCopy IDeepCopy[T]] interface {
-	IList[T, deepCopy]
+type IItratorList[deepCopy IDeepCopy[T], T any] interface {
+	IList[deepCopy, T]
 	// Filter helps to get the all data that matches according to the filter func and also returns index
-	Filter(f filterfunc[T, deepCopy]) []deepCopy
+	Filter(f Filterfunc[deepCopy, T]) []deepCopy
 	// DeepCopy this is used to create a copy of the list
 	DeepCopy() []deepCopy
 }
 
-type ISortedItratorList[T any, deepCopy IDeepCopy[T]] interface {
-	IBaseList[T, deepCopy]
+type ISortedItratorList[deepCopy IDeepCopy[T], T any] interface {
+	IBaseList[deepCopy, T]
 	// Filter helps to get the all data that matches according to the filter func and also returns index
-	Filter(f filterfunc[T, deepCopy]) []deepCopy
+	Filter(f Filterfunc[deepCopy, T]) []deepCopy
 	// DeepCopy this is used to create a copy of the list
 	DeepCopy() []deepCopy
 }
 
-type IIndexedItratorList[T any, deepCopy IDeepCopy[T]] interface {
-	IItratorList[T, deepCopy]
+type IIndexedItratorList[deepCopy IDeepCopy[T], T any] interface {
+	IItratorList[deepCopy, T]
 	// FindByIndexedKey get the first occourance if the data that matches according to the filter func and also returns index,
 	// this helps in fast search ad it will do a binary search on the indexKey
 	// this is similar to Non-Clustered Index in database

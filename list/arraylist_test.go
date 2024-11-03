@@ -27,7 +27,7 @@ func (usr *user) Equal(val interface{}) bool {
 // #region test initilization
 // test if we are able to initilize a blank array list and have no element
 func TestInitilizationOfBlankItratorArrayList(t *testing.T) {
-	list := InitArrayList[user, *user]()
+	list := InitArrayList[*user]()
 
 	if list.Count() != 0 {
 		t.Fatalf("list not intilized")
@@ -56,7 +56,7 @@ func TestInitilizationOfItratorArrayListWithValue(t *testing.T) {
 
 // #region test Add
 func TestAddingNewDataPositive(t *testing.T) {
-	list := InitArrayList[user, *user]()
+	list := InitArrayList[*user]()
 	input := &user{
 		id:   1,
 		name: "test 1",
@@ -73,8 +73,7 @@ func TestAddingNewDataPositive(t *testing.T) {
 }
 func TestAddingNewDataPositiveMoreData(t *testing.T) {
 	ArrayListCapacity = 10
-	ArrayListBuffer = 5
-	list := InitArrayList[user, *user]()
+	list := InitArrayList[*user]()
 	inputs := getSampleData()
 	for _, val := range inputs {
 		list.Add(val)
@@ -117,7 +116,7 @@ func getSampleData() []*user {
 	}
 }
 func TestAddingAtIndexNewDataInvalidIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	input := &user{
 		id:   10,
 		name: "test 10",
@@ -129,7 +128,7 @@ func TestAddingAtIndexNewDataInvalidIndex(t *testing.T) {
 
 }
 func TestAddingAtIndexNewDataNegativeIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	input := &user{
 		id:   10,
 		name: "test 10",
@@ -142,7 +141,7 @@ func TestAddingAtIndexNewDataNegativeIndex(t *testing.T) {
 }
 
 func TestAddingAtIndexNewData(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	input := &user{
 		id:   10,
 		name: "test 10",
@@ -162,14 +161,14 @@ func TestAddingAtIndexNewData(t *testing.T) {
 // #endregion
 // #region test get
 func TestGetWrongIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	_, err := list.Get(100)
 	if err != errInvalidIndex {
 		t.Fatalf("Array list should through error if adding at wrong index")
 	}
 }
 func TestGetNegativeIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	_, err := list.Get(-1)
 	if err != errInvalidIndex {
 		t.Fatalf("Array list should through error if adding at wrong index")
@@ -177,7 +176,7 @@ func TestGetNegativeIndex(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	data, err := list.Get(1)
 	if err != nil {
 		t.Fatalf("Array list return data")
@@ -191,14 +190,14 @@ func TestGet(t *testing.T) {
 // #endregion
 // #region test remove at index
 func TestRemoveAtIndexWrongIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	_, err := list.RemoveAtIndex(100)
 	if err != errInvalidIndex {
 		t.Fatalf("Array list should through error if removing at wrong index")
 	}
 }
 func TestRemoveAtIndexNegativeIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	_, err := list.RemoveAtIndex(-1)
 	if err != errInvalidIndex {
 		t.Fatalf("Array list should through error if removing at wrong index")
@@ -206,7 +205,7 @@ func TestRemoveAtIndexNegativeIndex(t *testing.T) {
 }
 
 func TestRemoveAtIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	data, err := list.RemoveAtIndex(1)
 	if err != nil {
 		t.Fatalf("Array list return data")
@@ -225,7 +224,7 @@ func TestRemoveAtIndex(t *testing.T) {
 // #region test remove
 
 func TestRemoveNegative(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	_, err := list.Remove(&user{
 		id:   100,
 		name: "test",
@@ -237,7 +236,7 @@ func TestRemoveNegative(t *testing.T) {
 
 func TestRemove(t *testing.T) {
 	sampleData := getSampleData()
-	list := InitArrayList[user, *user](sampleData...)
+	list := InitArrayList[*user](sampleData...)
 	index, err := list.Remove(sampleData[1])
 	if err != nil {
 		t.Fatalf("Array list remove is not removing a valid data")
@@ -255,7 +254,7 @@ func TestRemove(t *testing.T) {
 
 // #region test set
 func TestSetWrongIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	err := list.Set(100, &user{
 		id:   100,
 		name: "test",
@@ -265,7 +264,7 @@ func TestSetWrongIndex(t *testing.T) {
 	}
 }
 func TestSetNegativeIndex(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	err := list.Set(-1, &user{
 		id:   100,
 		name: "test",
@@ -276,7 +275,7 @@ func TestSetNegativeIndex(t *testing.T) {
 }
 
 func TestSet(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	usr := &user{
 		id:   100,
 		name: "test",
@@ -295,7 +294,7 @@ func TestSet(t *testing.T) {
 // #endregion
 // #region test find
 func TestFindNegative(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	index := list.Find(&user{
 		id:   1,
 		name: "test",
@@ -306,7 +305,7 @@ func TestFindNegative(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	index := list.Find(&user{
 		id:   1,
 		name: "test 1",
@@ -320,7 +319,7 @@ func TestFind(t *testing.T) {
 
 // #region test filter
 func TestFilterNegative(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	response := list.Filter(func(val *user) bool {
 		return val.id == 1 && val.name == "test"
 	})
@@ -330,7 +329,7 @@ func TestFilterNegative(t *testing.T) {
 }
 
 func TestFilter(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	response := list.Filter(func(val *user) bool {
 		return val.id == 1
 	})
@@ -342,7 +341,7 @@ func TestFilter(t *testing.T) {
 // #endregion
 
 func TestDeepCopy(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	response := list.DeepCopy()
 	if len(response) != len(getSampleData()) {
 		t.Fatalf("Array list return same data")
@@ -352,7 +351,7 @@ func TestDeepCopy(t *testing.T) {
 // #region test RemoveAll
 
 func TestRemoveAll(t *testing.T) {
-	list := InitArrayList[user, *user](getSampleData()...)
+	list := InitArrayList[*user](getSampleData()...)
 	removedData := list.RemoveAll(func(val *user) bool {
 		return val.id%2 == 0
 	})

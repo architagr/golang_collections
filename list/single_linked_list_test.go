@@ -21,8 +21,8 @@ func (obj *Integer) Equal(val interface{}) bool {
 
 var singleLinkedListSampleData = []int{1, 2, 3}
 
-func GetSingleLinkedList() IList[Integer, *Integer] {
-	obj := InitSingleLinkedList[Integer]()
+func GetSingleLinkedList() IList[*Integer, Integer] {
+	obj := InitSingleLinkedList[*Integer]()
 	// adding dummy data
 	for _, val := range []int{1, 2, 3} {
 		intVal := InitInteger(val)
@@ -32,7 +32,7 @@ func GetSingleLinkedList() IList[Integer, *Integer] {
 }
 
 func TestInitilizationSingleLinkedList(t *testing.T) {
-	obj := InitSingleLinkedList[Integer]()
+	obj := InitSingleLinkedList[*Integer]()
 
 	if obj == nil || obj.Count() != 0 {
 		t.Errorf("Single linked list not initilized correctly")
@@ -41,7 +41,7 @@ func TestInitilizationSingleLinkedList(t *testing.T) {
 
 // #region test Add node method
 func TestAddNodeToNewSingleLinkedList(t *testing.T) {
-	obj := InitSingleLinkedList[Integer]()
+	obj := InitSingleLinkedList[*Integer]()
 	val := InitInteger(1)
 	obj.Add(val)
 	if obj.Count() != 1 {
@@ -186,7 +186,7 @@ func TestGetNodeWithOutofBoundIndex(t *testing.T) {
 }
 
 func TestGetNodeInEmptyList(t *testing.T) {
-	obj := InitSingleLinkedList[Integer]()
+	obj := InitSingleLinkedList[*Integer]()
 	_, err := obj.Get(0)
 	if err == nil {
 		t.Errorf("Single Linked List should return error if we try to access any index when list is empty")
@@ -231,7 +231,7 @@ func TestSetNodeWithOutofBoundIndex(t *testing.T) {
 }
 
 func TestSetNodeInEmptyList(t *testing.T) {
-	obj := InitSingleLinkedList[Integer]()
+	obj := InitSingleLinkedList[*Integer]()
 	intVal := InitInteger(10)
 	err := obj.Set(0, intVal)
 	if err == nil {

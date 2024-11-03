@@ -8,7 +8,7 @@ import (
 // #region test initilization
 // test if we are able to initilize a blank sorted list and have no element
 func TestInitilizationOfBlankSortedItratorList(t *testing.T) {
-	list := InitSortedList[user, *user](func(left, right *user) bool {
+	list := InitSortedList[*user](func(left, right *user) bool {
 		return left.id < right.id
 	})
 
