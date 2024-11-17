@@ -132,7 +132,7 @@ This function helps to remove all elements for which the returns true for f, and
 
 ## Benchmarks
 
-This benchmarking was done against [emirpasic's GODS package](https://github.com/emirpasic/gods)
+This benchmarking was done against [emirpasic's GODS package (v1.18.1)](https://github.com/emirpasic/gods)
 
 **System configuration used while doing these benchmark**<br />
 **goos:** darwin<br />
