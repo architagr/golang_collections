@@ -3,23 +3,7 @@ package queue
 import (
 	"reflect"
 	"testing"
-
-	llq "github.com/emirpasic/gods/queues/linkedlistqueue"
 )
-
-func BenchmarkGolang_collections_llQueue(b *testing.B) {
-	newQueue := NewQueue[int]()
-	for i := 0; i < b.N; i++ {
-		newQueue.Enqueue(i)
-	}
-}
-
-func BenchmarkEmirpasicGods_llQueue(b *testing.B) {
-	newQueue := llq.New()
-	for i := 0; i < b.N; i++ {
-		newQueue.Enqueue(i)
-	}
-}
 
 func TestNewNodeCreatedOfIntType(t *testing.T) {
 	node := newNode(10)

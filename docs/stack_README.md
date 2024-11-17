@@ -69,15 +69,45 @@ This function returns ture if the stack is empty, i.e. count is 0, and return fa
 
 ## Benchmarks
 
-This benchmarking was done against [emirpasic's GODS package](https://github.com/emirpasic/gods)
+This benchmarking was done against [emirpasic's GODS package (v1.18.1)](https://github.com/emirpasic/gods)
 
 **System configuration used while doing these benchmark**<br />
-**goos:** linux<br />
-**goarch:** amd64<br />
-**pkg:** github.com/architagr/golang_collections/stack<br />
-**cpu:** Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz<br />
+**goos:** darwin<br />
+**goarch:** arm64<br />
+**pkg:** github.com/architagr/golang_collections/test/benchmark<br />
+**cpu:** Apple M1 Pro<br />
 
-| Benchmark name                       |       (1)     |             (2) |          (3)  |             (4) |
-| ------------------------------------ | -------------:| ---------------:| -------------:| ---------------:|
-| BenchmarkGolang_collections_llStack  | **100000000** | **109.0 ns/op** |   **16 B/op** | **1 allocs/op** |
-| BenchmarkEmirpasicGods_llStack       |     100000000 |     143.0 ns/op |       31 B/op |     1 allocs/op |
+
+<table>
+<thead>
+<tr>
+<td>Function name</td>
+<td>Package name</td>
+<td># operation</td>
+<td>Time taken per operation</td>
+<td></td>
+<td></td>
+</tr>
+</thead>
+<tbody>
+<tr >
+
+</tr>
+<tr>
+<td rowspan=2>Push</td>
+<td>architagr/golang_collections</td>
+<td>23,863,994</td>
+<td>46.03 ns/op</td>
+<td>16 B/op</td>
+<td>1 allocs/op</td>
+</tr>
+<tr>
+<td>emirpasic/gods</td>
+<td>20,692,017</td>
+<td>61.07 ns/op</td>
+<td>31 B/op</td>
+<td>1 allocs/op</td>
+</tr>
+
+</tbody>
+</table>
