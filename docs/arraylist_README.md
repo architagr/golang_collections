@@ -31,7 +31,7 @@ func (usr *user) Equal(val interface{}) bool {
 }
 
 func main() {
-    list := InitArrayList[*user]()
+    userList := InitArrayList[*user]()
     users := []*user{
 		&user{
 			id:   1,
@@ -46,35 +46,35 @@ func main() {
     if err != nil{
         panic(fmt.Errorf("Error in adding at 0th index: %s", err.Error()))
     }
-    data, err := list.Get(0)
+    data, err := userList.Get(0)
     if err != nil{
         panic(fmt.Errorf("Error in getting value at a index: %s", err.Error()))
     }
-    err := list.Set(0, &user{
+    err := userList.Set(0, &user{
         id: 3,
         name: "test user 3",
     })
 	if err != nil {
 		 panic(fmt.Errorf("Error in setting value at a index: %s", err.Error()))
 	}
-    index, err := list.Remove(users[1])
+    index, err := userList.Remove(users[1])
 	if err != nil {
 		panic(fmt.Errorf("error when removing a node: %s", err.Error()))
 	}
 
-    data, err := list.RemoveAtIndex(1)
+    data, err := userList.RemoveAtIndex(1)
 	if err != nil {
 		panic(fmt.Errorf("error when removing a node at a index: %s", err.Error()))
 	}
 
-    index := list.Find(&user{
+    index := userList.Find(&user{
 			id:   2,
 			name: "test name 2",
 		})
     if index == -1 {
 		panic(fmt.Errorf("error when finding value: %s", err.Error()))
 	}
-    response := list.Filter(func(val *user) bool {
+    response := userList.Filter(func(val *user) bool {
 		return val.id == 1
 	})
 }
@@ -129,3 +129,79 @@ This function helps to finding all elements for which the returns true for f, an
 
 This function helps to remove all elements for which the returns true for f, and also returns all removed elements.
 
+
+## Benchmarks
+
+This benchmarking was done against [emirpasic's GODS package](https://github.com/emirpasic/gods)
+
+**System configuration used while doing these benchmark**<br />
+**goos:** darwin<br />
+**goarch:** arm64<br />
+**pkg:** github.com/architagr/golang_collections/test/benchmark<br />
+**cpu:** Apple M1 Pro<br />
+
+<table>
+<thead>
+<tr>
+<td>Function name</td>
+<td>Package name</td>
+<td># operation</td>
+<td>Time taken per operation</td>
+<td></td>
+<td></td>
+</tr>
+</thead>
+<tbody>
+<tr >
+
+</tr>
+<tr>
+<td rowspan=2>Add</td>
+<td>architagr/golang_collections</td>
+<td>74,762,736</td>
+<td>21.34 ns/op</td>
+<td>22 B/op</td>
+<td>0 allocs/op</td>
+</tr>
+<tr>
+<td>emirpasic/gods</td>
+<td>43,898,088</td>
+<td>26.29 ns/op</td>
+<td>48 B/op</td>
+<td>0 allocs/op</td>
+</tr>
+<tr>
+<td rowspan=2>AddAtIndex</td>
+<td>architagr/golang_collections</td>
+<td>363,227,274</td>
+<td>3.300</td>
+<td>0 B/op</td>
+<td>0 allocs/op</td>
+</tr>
+<tr>
+<td>emirpasic/gods</td>
+<td>812,377</td>
+<td>262970 ns/op</td>
+<td>41 B/op</td>
+<td>0 allocs/op</td>
+</tr>
+
+<tr>
+<td rowspan=2>Find/IndexOf</td>
+<td>architagr/golang_collections</td>
+<td>99,529,309</td>
+<td>11.59</td>
+<td>0 B/op</td>
+<td>0 allocs/op</td>
+</tr>
+<tr>
+<td>emirpasic/gods <br/>
+<br/>
+issue found when we use pointer data as elements: https://github.com/emirpasic/gods/issues/269</td>
+<td>415,523,194</td>
+<td>2.888 ns/op</td>
+<td>0 B/op</td>
+<td>0 allocs/op</td>
+</tr>
+</tbody>
+</table>

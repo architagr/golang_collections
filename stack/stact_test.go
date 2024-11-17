@@ -3,23 +3,7 @@ package stack
 import (
 	"reflect"
 	"testing"
-
-	lls "github.com/emirpasic/gods/stacks/linkedliststack"
 )
-
-func BenchmarkGolang_collections_llStack(b *testing.B) {
-	newStack := NewStack[int]()
-	for i := 0; i < b.N; i++ {
-		newStack.Push(i)
-	}
-}
-
-func BenchmarkEmirpasicGods_llStack(b *testing.B) {
-	newStack := lls.New()
-	for i := 0; i < b.N; i++ {
-		newStack.Push(i)
-	}
-}
 
 func TestNewNodeCreatedOfIntType(t *testing.T) {
 	node := newNode(10)
