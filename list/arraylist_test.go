@@ -122,7 +122,7 @@ func TestAddingAtIndexNewDataInvalidIndex(t *testing.T) {
 		name: "test 10",
 	}
 	err := userList.AddAtIndex(10, input)
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if adding at wrong index")
 	}
 
@@ -134,7 +134,7 @@ func TestAddingAtIndexNewDataNegativeIndex(t *testing.T) {
 		name: "test 10",
 	}
 	err := userList.AddAtIndex(-1, input)
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if adding at wring index")
 	}
 
@@ -163,14 +163,14 @@ func TestAddingAtIndexNewData(t *testing.T) {
 func TestGetWrongIndex(t *testing.T) {
 	userList := InitArrayList(getSampleData()...)
 	_, err := userList.Get(100)
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if adding at wrong index")
 	}
 }
 func TestGetNegativeIndex(t *testing.T) {
 	userList := InitArrayList(getSampleData()...)
 	_, err := userList.Get(-1)
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if adding at wrong index")
 	}
 }
@@ -192,14 +192,14 @@ func TestGet(t *testing.T) {
 func TestRemoveAtIndexWrongIndex(t *testing.T) {
 	userList := InitArrayList(getSampleData()...)
 	_, err := userList.RemoveAtIndex(100)
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if removing at wrong index")
 	}
 }
 func TestRemoveAtIndexNegativeIndex(t *testing.T) {
 	list := InitArrayList(getSampleData()...)
 	_, err := list.RemoveAtIndex(-1)
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if removing at wrong index")
 	}
 }
@@ -228,7 +228,7 @@ func TestRemoveNegative(t *testing.T) {
 		id:   100,
 		name: "test",
 	})
-	if err != errDataNotFoundError {
+	if err != ErrDataNotFoundError {
 		t.Fatalf("Array list should through error if removing wrong index")
 	}
 }
@@ -258,7 +258,7 @@ func TestSetWrongIndex(t *testing.T) {
 		id:   100,
 		name: "test",
 	})
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if removing at wrong index")
 	}
 }
@@ -268,7 +268,7 @@ func TestSetNegativeIndex(t *testing.T) {
 		id:   100,
 		name: "test",
 	})
-	if err != errInvalidIndex {
+	if err != ErrInvalidIndex {
 		t.Fatalf("Array list should through error if removing at wrong index")
 	}
 }
@@ -341,7 +341,7 @@ func TestFilter(t *testing.T) {
 
 func TestDeepCopy(t *testing.T) {
 	userList := InitArrayList(getSampleData()...)
-	response := userList.DeepCopy()
+	response, _ := userList.DeepCopy()
 	if len(response) != len(getSampleData()) {
 		t.Fatalf("Array list return same data")
 	}
@@ -359,7 +359,7 @@ func TestRemoveAll(t *testing.T) {
 			t.Fatalf("removed some data that was not supposed to be removed")
 		}
 	}
-	response := userList.DeepCopy()
+	response, _ := userList.DeepCopy()
 	for _, val := range response {
 		if val.id%2 == 0 {
 			t.Fatalf("did not remove data that was not supposed to be removed")
