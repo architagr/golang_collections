@@ -9,22 +9,37 @@ var (
 )
 
 type arrayList[T any] struct {
-	data []T
-	size int
+	data               []T
+	deepCopyData       []IDeepCopy[T]
+	size               int
+	implementsDeepCopy *bool
 }
 
 func InitArrayList[T any](data ...T) IItratorList[T] {
 	size := 0
+
 	if len(data) == 0 {
 		data = make([]T, ArrayListCapacity)
 	} else {
 		size = len(data)
+
 	}
 	l := &arrayList[T]{
 		data: data,
 		size: size,
 	}
+	l.setImplementsDeepCopy()
 	return l
+}
+
+func (l *arrayList[T]) setImplementsDeepCopy() {
+	var o T
+	var implementsDeepCopy *bool
+	obj, ok := CheckImplementsDeepCopy(o)
+	obj, ok = CheckImplementsDeepCopy(l.data[0])
+	fmt.Println(obj)
+	implementsDeepCopy = &ok
+	l.implementsDeepCopy = implementsDeepCopy
 }
 
 func (l *arrayList[T]) Add(data T) (resultIndex int) {
@@ -148,7 +163,8 @@ func (l *arrayList[T]) DeepCopy() ([]T, error) {
 		v, _ := CheckImplementsDeepCopy(l.data[i])
 		if v != nil {
 			data := v.Copy()
-			result = append(result, data)
+			o, _ := data.(T)
+			result = append(result, o)
 		}
 	}
 	return result, nil

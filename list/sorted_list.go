@@ -24,9 +24,9 @@ func (l *sortedList[T]) binarySearch(data T, start, end int) int {
 	mid := (start + end) / 2
 	midEle, _ := l.Get(mid)
 
-	if data.Equal(midEle) {
-		return mid
-	}
+	// if data.Equal(midEle) {
+	// 	return mid
+	// }
 
 	if l.lessFn(midEle, data) {
 		return l.binarySearch(data, mid+1, end)
@@ -95,9 +95,9 @@ func (l *sortedList[T]) Set(index int, data T) error {
 func (l *sortedList[T]) Find(data T) (index int) {
 	index = l.binarySearch(data, 0, len(l.data)-1)
 
-	if l.data[index].Equal(data) {
-		return index
-	}
+	// if l.data[index].Equal(data) {
+	// 	return index
+	// }
 	return -1
 }
 
@@ -126,15 +126,15 @@ func (l *sortedList[T]) RemoveAll(f Filterfunc[T]) []T {
 
 func (l *sortedList[T]) DeepCopy() ([]T, error) {
 	result := make([]T, 0, l.Count())
-	for _, val := range l.data {
-		if val != nil {
-			data, ok := (val.Copy()).(deepCopy)
-			if ok {
-				result = append(result, data)
-			}
-		}
-	}
-	return result
+	// for _, val := range l.data {
+	// 	if val != nil {
+	// 		data, ok := (val.Copy()).(deepCopy)
+	// 		if ok {
+	// 			result = append(result, data)
+	// 		}
+	// 	}
+	// }
+	return result, nil
 }
 
 func (l *sortedList[T]) removeElement(index int) {

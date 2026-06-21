@@ -5,9 +5,18 @@ import (
 	"reflect"
 )
 
+// type IDeepCopy[T any] interface {
+// 	*T
+// 	deepCopyBaseInterface
+// }
+// type deepCopyBaseInterface interface {
+// 	Copy() interface{}
+// 	Equal(val interface{}) bool
+// }
+
 type IDeepCopy[T any] interface {
-	Copy() T
-	Equal(val T) bool
+	Copy() interface{}
+	Equal(val interface{}) bool
 }
 
 func AreEqual(data1, data2 any) bool {
@@ -31,6 +40,11 @@ func AreEqual(data1, data2 any) bool {
 }
 
 func CheckImplementsDeepCopy[T any](data T) (IDeepCopy[T], bool) {
+	dataKind := reflect.ValueOf(data).Kind()
+	var o IDeepCopy[T]
+	if dataKind != reflect.Pointer && reflect.TypeOf(data) != reflect.TypeOf(o) {
+		return nil, false
+	}
 	v, ok := interface{}(&data).(IDeepCopy[T])
 	return v, ok
 }

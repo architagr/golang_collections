@@ -66,10 +66,10 @@ func (l *singleLinkedList[T]) Remove(data T) (removedIndex int, err error) {
 	temp := l.head
 	removedIndex = 0
 	for temp != nil {
-		if data.Equal(temp.data) {
-			_, err = l.RemoveAtIndex(removedIndex)
-			return
-		}
+		// if data.Equal(temp.data) {
+		// 	_, err = l.RemoveAtIndex(removedIndex)
+		// 	return
+		// }
 		removedIndex++
 		temp = temp.next
 	}
@@ -131,9 +131,9 @@ func (l *singleLinkedList[T]) Find(data T) (index int) {
 	temp := l.head
 	index = 0
 	for temp != nil {
-		if temp.data.Equal(data) {
-			break
-		}
+		// if temp.data.Equal(data) {
+		// 	break
+		// }
 		index++
 		temp = temp.next
 	}
