@@ -1,31 +1,31 @@
 package list
 
-func InitSingleLinkedList[deepCopy IDeepCopy[T], T any]() IList[deepCopy, T] {
-	return &singleLinkedList[deepCopy, T]{
+func InitSingleLinkedList[T any]() IList[T] {
+	return &singleLinkedList[T]{
 		head:     nil,
 		tail:     nil,
-		indexMap: make(map[int]*singleLinkedListNode[deepCopy, T]),
+		indexMap: make(map[int]*singleLinkedListNode[T]),
 	}
 }
 
-type singleLinkedListNode[deepCopy IDeepCopy[T], T any] struct {
-	data deepCopy
-	next *singleLinkedListNode[deepCopy, T]
+type singleLinkedListNode[T any] struct {
+	data T
+	next *singleLinkedListNode[T]
 }
 
-func initSingleLinkedListNode[deepCopy IDeepCopy[T], T any](data deepCopy) *singleLinkedListNode[deepCopy, T] {
-	return &singleLinkedListNode[deepCopy, T]{
+func initSingleLinkedListNode[T any](data T) *singleLinkedListNode[T] {
+	return &singleLinkedListNode[T]{
 		data: data,
 		next: nil,
 	}
 }
 
-type singleLinkedList[deepCopy IDeepCopy[T], T any] struct {
-	head, tail *singleLinkedListNode[deepCopy, T]
-	indexMap   map[int]*singleLinkedListNode[deepCopy, T]
+type singleLinkedList[T any] struct {
+	head, tail *singleLinkedListNode[T]
+	indexMap   map[int]*singleLinkedListNode[T]
 }
 
-func (l *singleLinkedList[deepCopy, T]) Add(data deepCopy) (resultIndex int) {
+func (l *singleLinkedList[T]) Add(data T) (resultIndex int) {
 	newNode := initSingleLinkedListNode(data)
 	if l.head == nil {
 		l.head = newNode
@@ -38,7 +38,7 @@ func (l *singleLinkedList[deepCopy, T]) Add(data deepCopy) (resultIndex int) {
 	return l.Count()
 }
 
-func (l *singleLinkedList[deepCopy, T]) AddAtIndex(index int, data deepCopy) (err error) {
+func (l *singleLinkedList[T]) AddAtIndex(index int, data T) (err error) {
 	err = l.validateIndex(index)
 	if err != nil {
 		return
@@ -62,22 +62,22 @@ func (l *singleLinkedList[deepCopy, T]) AddAtIndex(index int, data deepCopy) (er
 	return
 }
 
-func (l *singleLinkedList[deepCopy, T]) Remove(data deepCopy) (removedIndex int, err error) {
+func (l *singleLinkedList[T]) Remove(data T) (removedIndex int, err error) {
 	temp := l.head
 	removedIndex = 0
 	for temp != nil {
-		if data.Equal(temp.data) {
-			_, err = l.RemoveAtIndex(removedIndex)
-			return
-		}
+		// if data.Equal(temp.data) {
+		// 	_, err = l.RemoveAtIndex(removedIndex)
+		// 	return
+		// }
 		removedIndex++
 		temp = temp.next
 	}
 	removedIndex = -1
-	err = errDataNotFoundError
+	err = ErrDataNotFoundError
 	return
 }
-func (l *singleLinkedList[deepCopy, T]) RemoveAtIndex(index int) (data deepCopy, err error) {
+func (l *singleLinkedList[T]) RemoveAtIndex(index int) (data T, err error) {
 	err = l.validateIndex(index)
 	if err != nil {
 		return
@@ -101,23 +101,23 @@ func (l *singleLinkedList[deepCopy, T]) RemoveAtIndex(index int) (data deepCopy,
 	delete(l.indexMap, initialCount-1)
 	return
 }
-func (l *singleLinkedList[deepCopy, T]) Count() int {
+func (l *singleLinkedList[T]) Count() int {
 	return len(l.indexMap)
 }
-func (l *singleLinkedList[deepCopy, T]) validateIndex(index int) error {
+func (l *singleLinkedList[T]) validateIndex(index int) error {
 	if index < 0 || index >= l.Count() {
-		return errInvalidIndex
+		return ErrInvalidIndex
 	}
 	return nil
 }
-func (l *singleLinkedList[deepCopy, T]) Get(index int) (data deepCopy, err error) {
+func (l *singleLinkedList[T]) Get(index int) (data T, err error) {
 	err = l.validateIndex(index)
 	if err != nil {
 		return
 	}
 	return l.indexMap[index].data, nil
 }
-func (l *singleLinkedList[deepCopy, T]) Set(index int, data deepCopy) error {
+func (l *singleLinkedList[T]) Set(index int, data T) error {
 	err := l.validateIndex(index)
 	if err != nil {
 		return err
@@ -127,13 +127,13 @@ func (l *singleLinkedList[deepCopy, T]) Set(index int, data deepCopy) error {
 	return nil
 }
 
-func (l *singleLinkedList[deepCopy, T]) Find(data deepCopy) (index int) {
+func (l *singleLinkedList[T]) Find(data T) (index int) {
 	temp := l.head
 	index = 0
 	for temp != nil {
-		if temp.data.Equal(data) {
-			break
-		}
+		// if temp.data.Equal(data) {
+		// 	break
+		// }
 		index++
 		temp = temp.next
 	}
@@ -143,8 +143,8 @@ func (l *singleLinkedList[deepCopy, T]) Find(data deepCopy) (index int) {
 	return
 }
 
-func (l *singleLinkedList[deepCopy, T]) RemoveAll(f Filterfunc[deepCopy, T]) []deepCopy {
-	removedData := make([]deepCopy, 0, l.Count())
+func (l *singleLinkedList[T]) RemoveAll(f Filterfunc[T]) []T {
+	removedData := make([]T, 0, l.Count())
 	temp := l.head
 	index := 0
 	for temp != nil {

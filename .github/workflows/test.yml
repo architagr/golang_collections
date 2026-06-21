@@ -6,12 +6,27 @@ on:
     branches:
       - main
 
-name: run tests
+name: All builds
 jobs:
+  build:
+    strategy:
+      matrix:
+        go-version: ["1.18", "1.19", "1.20", "1.21", "1.22", "1.23"]
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: ./.ci.gofmt.sh
+      - run: ./.ci.govet.sh
+      - run: go test -v -race ./...
   test:
     strategy:
       matrix:
-        go-version: ["1.18", "1.19", "1.20", "1.21", "1.22"]
+        go-version: ["1.18", "1.19", "1.20", "1.21", "1.22", "1.23"]
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
@@ -23,7 +38,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run tests
-        run: go test ./... -v -covermode=count
+        run: go test ./... -race -v -covermode=count
 
   coverage:
     runs-on: ubuntu-latest
