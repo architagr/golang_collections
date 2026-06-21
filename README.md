@@ -16,3 +16,4 @@ We have also done some basic benchmarking with some of the most commonly used pa
 - [Single linked list](docs/singleLinkedList_README.md)
 - [Array list](docs/arraylist_README.md)
 - [Sorted list](docs/sortedlist_README.md)
+- [B-Tree](docs/btree_README.md)
